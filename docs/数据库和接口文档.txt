@@ -1,0 +1,172 @@
+﻿数据库文档：
+1、数据表apps：
+	`id` int(10) 			主键
+  	`appId` int(10) 		appid
+  	`appIcon` varchar(255) 		app图标
+  	`appName` varchar(255) 		app名称
+  	`appPath` varchar(255) 		app路径
+
+    接口：/app-list				json={data:[{appId,appName,appIcon,appPath},...]}
+
+
+2、数据表city_code:
+ 	`id` int(10) 			主键
+  	`citycode` varchar(30) 		城市代码
+  	`city` varchar(255) 		城市名称（如上海）
+ 	`citypath` varchar(255) 	城市详细名称（上海，上海，中国）
+
+3、语言lang：
+ 	`id` int(11) 			主键
+  	`lang_name` varchar(255) 	语言名称
+
+4、直播Live:
+    	`id` int(11) 			主键
+  	`num` int(11) 			频道号
+  	`name` varchar(255) 		名称
+  	`url` varchar(255) 		地址
+  	`type` int(11) 			类型
+
+  接口：/live				信息：/info json={data:[{title, num, name, url}, ...]}
+
+5、直播类型live_types:
+	`id` int(11) 			主键
+  	`type_name` varchar(255) 	类型名称
+	
+6、 应用市场market：
+	`id` int(10) 			逐渐
+  	`icon_url` varchar(255) 	图标地址
+  	`type` int(11) 			类型
+  	`version` varchar(255) 		版本号
+  	`downloads` int(10) 		下载量
+  	`recommend` tinyint(1) 		是否推荐
+  	`file` varchar(255) 		apk文件
+  	`file_name` varchar(255) 	apk文件名称
+  	`weight` int(11) 		权重
+  	`size` int(11) 			文件大小
+  	`packageName` varchar(255) 	包名
+
+7、数据表market_desc：
+	`id` int(11) 			主键
+  	`market_id` int(11) 		market数据表中对应的id
+  	`lang_id` int(11) 		lang数据表中对应的id
+  	`appName` varchar(255) 		app名称
+  	`desc` varchar(255) 		app描述
+
+8、截图market_photos:
+	`id` int(11) 			主键
+  	`market_id` int(11) 		market数据表中对应的id
+  	`photo_url` varchar(255) 	截图地址
+
+9、类型market_types:
+  	`id` int 			主键
+  	`type_name` varchar(255) 	类别
+
+  接口：/market
+  	推荐：/recommend		json={data:[{id, appName, icon, type},...]}
+  	列表：/allapp		  	json={data:[{id, appName, icon, type},...]}
+  	排行：/rank			json={data:[{id, appName, icon, type},...]}
+  	类别：/types		  	json={data:[{type},...]}
+  	分类：/type?type=		json={data:[{id, appName, icon, type},...]}
+  	详情：/info?id=			json={id, appName, icon, photos:[url1, url2], type, desc, version, downloads, size}
+  	版本号获取：/version?id=	json={version}
+	下载：/download?id=		下载apk文件
+
+10、数据表password_resets：
+ 	`email` varchar(255) 		email
+  	`token` varchar(255) 		用户认证的session
+  	`created_at` timestamp 		创建时间=
+
+11、数据表themes：
+	`id` int(10) 			逐渐
+  	`themeCover` varchar(255) 	主题图片地址
+  	`themeName` varchar(255) 	主题名称
+
+12、数据表theme_infos：
+	`id` int(10) 			主键
+  	`themeUrl` varchar(255) 	图片地址
+  	`theme_id` int(11) NOT NULL,	themes数据表对应的id
+  	`themId` int(10) NOT NULL,	添加的them标识
+
+    接口：/theme 				json={them:{themCover,themName,themsId,themInfo:[{themId,themUrl}，...]}}
+
+13、用户表users：
+	`id` int(10) 			主键
+  	`name` varchar(255) 		用户名
+  	`email` varchar(255) 		email
+  	`password` varchar(255) 	密码
+  	`remember_token` varchar(100) 	令牌
+  	`created_at` timestamp 		创建时间
+  	`updated_at` timestamp 		更新时间
+
+14、模块user_modules：
+ 	`id` int(11) 			主键
+  	`name` varchar(255) 		模块名称
+  	`url` varchar(45) 		链接
+
+15、用户权限表user_priv：
+	`id` int(11) NOT 		主键
+  	`user_id` int(11) 		users数据表中对应的id
+  	`modules_id` int(11) 		user_modules数据表中对应的id
+
+16、点播video:
+ 	`id` int(11) 			主键
+ 	`video_id` int(11) 		影片编号
+  	`photo_url` varchar(255) 	图片url
+  	`type` int(11) 			类型
+  	`url` varchar(255) 		普通影片地址
+  	`url_hd` varchar(255)		高清影片地址
+  	`url_ud` varchar(255) 		超清影片地址
+  	`score` int(11) 		评分
+  	`click` int(11) 		点击量
+  	`weight` int(11) 		权重
+  	`price` float 			价格
+
+17、数据表video_desc：
+	`id` int(11) 			主键
+  	`video_id` int(11) 		video数据表中对应的id
+  	`lang_id` int(11) 		lang数据表中对应的id
+  	`name` varchar(255) 		影片名称
+  	`detail` varchar(255) 		详情
+  	`introduce` varchar(255) 	简介
+
+18、点播账单video_pays：
+	`id` int(11) 			主键
+  	`user_id` varchar(255) 		设备标识
+  	`video_id` varchar(255) 	影片编号
+  	`pay_time` timestamp 		付款时间
+
+19、点播评分video_score：
+	`id` int(11) 			主键
+ 	`video_id` int(11) 		video数据表对应的id
+  	`user_id` int(11) 		设备标识
+ 	`score` int(11) 		评分
+  	`created_at` timestamp 		创建时间
+  	`updated_at` timestamp 		更新时间
+
+20、点播类型video_types：
+	`id` int(11) 			逐渐
+  	`type_name` varchar(255) 	类型名称
+
+  接口：/video
+  	类别：/types		  	json={data:[{type},...]}
+  	分类：/type?type=		json={data:[{id, name, photo},...]}
+  	详情：/info?id=			json={id, name, photo, type, detail, url, introduce, score, price}
+	购买状态：/payinfo?video_id=&user_id=（返回值说明：1：影片未购买；2：影片已购买并且在有效期内；3：影片已购买但已过期）
+					josn={result:{tag}}
+	付款：/pay?video_id=&user_id=	json={{result:{tag}}}
+
+21、天气weathers_ch：
+	`id` int(10) 			主键
+  	`typecode` varchar(30) 		天气代码
+  	`citycode` varchar(30) 		城市代码
+  	`type` varchar(255) 		天气（如：晴）
+  	`temp` varchar(255) 		温度
+  	`city` varchar(255) 		城市名称（如：上海）
+  	`citypath` varchar(255) 	城市详细名称（如：上海，上海，中国）
+  	`mtime` datetime 		天气更新时间
+
+接口：
+	根据IP获取天气：/ipweather
+	根据IP获取天气(IP固定，局域网测试使用)：/test
+	根据城市名获取天气：/citynameweather?cityname=
+	根据城市代码获取天气：/citycodeweather?citycode=
